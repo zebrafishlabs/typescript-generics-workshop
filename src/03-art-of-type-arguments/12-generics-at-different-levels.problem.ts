@@ -1,9 +1,19 @@
 import { expect, it, describe } from "vitest";
 import { Equal, Expect } from "../helpers/type-utils";
 
-export const getHomePageFeatureFlags = (
-  config: unknown,
-  override: (flags: unknown) => unknown
+// Always strive to make the generic type argument represent a low level value.
+// Higher level generics will get captured by the inference, muddying up the
+// accessed and inferred types. This makes hover-help/type inferences hard to
+// read and consume.
+export const getHomePageFeatureFlags = <THomePageFlags>(
+  config: {
+    rawConfig:{
+      featureFlags:{
+        homePage: THomePageFlags
+      }
+      }
+  },
+  override: (flags: THomePageFlags) => THomePageFlags
 ) => {
   return override(config.rawConfig.featureFlags.homePage);
 };
