@@ -11,7 +11,9 @@ export class Component<TProps> {
   getProps = () => this.props;
 }
 
-const cloneComponent = (component: unknown) => {
+// The thing that is generic here is the props inside the component.
+// Important to keep in mind what is dynamic about this situation.
+const cloneComponent = <TProps>(component: Component<TProps>) => {
   return new Component(component.getProps());
 };
 
